@@ -3,7 +3,7 @@ plugins {
 }
 
 repositories {
-	mavenLocal()
+	//mavenLocal()
 	maven {
 		url = 'https://repo.runelite.net'
 		content {
@@ -14,7 +14,7 @@ repositories {
 }
 
 def runeLiteVersion = 'latest.release'
-def pluginMainClass = 'com.example.ExamplePluginTest'
+def pluginMainClass = 'org.BraedenMooreDev.PluginLauncher'
 
 dependencies {
 	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion
@@ -27,7 +27,7 @@ dependencies {
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
 }
 
-group = 'com.example'
+group = 'org.BraedenMooreDev'
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
@@ -40,6 +40,17 @@ tasks.register('run', JavaExec) {
 
 	jvmArgs "-ea"
 	args "--developer-mode", "--debug"
+}
+
+tasks.register('listResources') {
+	doLast {
+		sourceSets.main.resources.srcDirs.each { dir ->
+			println "Resource directory: ${dir}"
+			dir.eachFileRecurse {
+				println it
+			}
+		}
+	}
 }
 
 tasks.register('shadowJar', Jar) {
